@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using ExerciciosMVC.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +12,17 @@ namespace ExerciciosMVC.Controllers
 {
     public class EventosController : Controller
     {
-    
+
         private static List<Evento> _Eventos = new()
         {
-            new Evento {Id = 1, Nome = "ConectaPro", Descricao = "Evento para prestadores de serviços em nuvem", Local = "São Caetano do Sul", QuantidadeVagas = 200, ValorIngresso = 300},
-            new Evento {Id = 2, Nome = "ConectaPremium", Descricao = "Evento vip para prestadores de serviços em nuvem", Local = "São Bernardo do Campo", QuantidadeVagas = 50, ValorIngresso = 700}
+            new Evento {Id = 1, Nome = "ConectaPro", Descricao = "Evento para prestadores de serviços em nuvem", Local = "São Caetano do Sul", DataEvento = new DateTime(2026, 10, 12),QuantidadeVagas = 200, ValorIngresso = 300},
+
+            new Evento {Id = 2, Nome = "ConectaPremium", Descricao = "Evento vip para prestadores de serviços em nuvem", Local = "São Bernardo do Campo", DataEvento = new DateTime(2026, 10, 12) ,QuantidadeVagas = 50, ValorIngresso = 700}
         };
 
         public IActionResult Index()
         {
-            return View();
+            return View(_Eventos);
         }
 
         // GET
@@ -30,6 +32,7 @@ namespace ExerciciosMVC.Controllers
         }
 
         //POST
+        [HttpPost]
         public IActionResult Criar(Evento evento)
         {
             if (!ModelState.IsValid)
@@ -41,7 +44,26 @@ namespace ExerciciosMVC.Controllers
 
             _Eventos.Add(evento);
 
+            if (evento.DataEvento < DateTime.Now)
+            {
+                ModelState.AddModelError("DataEvento", "A data não pode ser anterior à data atual.");
+
+                return View(evento);
+            }
             return RedirectToAction("Index");
+
+        }
+
+        public IActionResult Detalhes(int id)
+        {
+            var evento = _Eventos.FirstOrDefault(e => e.Id == id);
+
+            if (evento == null)
+            {
+                return NotFound();
+            }
+
+            return View(evento);
         }
     }
 }
