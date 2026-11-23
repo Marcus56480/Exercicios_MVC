@@ -19,8 +19,6 @@ namespace ExerciciosMVC.Models
         public string? Local { get; set; }
 
         [Required(ErrorMessage = "A data do evento é obrigatoria")]
-        //TODO: Verificação de data, com a data minima sendo a atual
-        
         public DateTime DataEvento { get; set; }
   
         [Range(1, 1000, ErrorMessage = "A quantidade de vagas esta entre 1 e 1000")]
