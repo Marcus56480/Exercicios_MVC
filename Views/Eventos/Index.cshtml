@@ -24,12 +24,12 @@
             <td>@evento.Nome</td>
             <td>@evento.Descricao</td>
             <td>@evento.Local</td>
-            <td>@evento.DataEvento</td>
+            <td>@evento.DataEvento.ToString("dd/MM/yyyy")</td>
             <td>@evento.QuantidadeVagas</td>
             <td>@evento.ValorIngresso</td>
 
             <td>
-                <a asp-action="Detalhes" asp-route-id="@evento.Id">Detalhes</a>
+                <a asp-action="Detalhes" asp-route-id= "@evento.Id">Detalhes</a>
             </td>
         </tr>
     }
