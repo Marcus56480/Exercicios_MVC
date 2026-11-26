@@ -21,7 +21,7 @@ namespace ExerciciosMVC.Models
         [Required(ErrorMessage = "A data do evento é obrigatoria")]
         public DateTime DataEvento { get; set; }
   
-        [Range(1, 1000, ErrorMessage = "A quantidade de vagas precisar ser entre 1 e 1000")]
+        [Range(1, 1000, ErrorMessage = "A quantidade de vagas precisa ser entre 1 e 1000")]
         public int QuantidadeVagas { get; set; }
 
         [Range(0, 100000, ErrorMessage = "O valor minimo do ingresso é R$ 0,00")]
