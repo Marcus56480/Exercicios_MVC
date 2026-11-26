@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
+using Exercicios_MVC.ViemModels;
 using ExerciciosMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -65,5 +66,29 @@ namespace ExerciciosMVC.Controllers
 
             return View(evento);
         }
+
+        public IActionResult Buscar()
+        {
+            return View(new BuscaEventoViewModels());
+        }
+
+        [HttpPost]
+        public IActionResult Buscar(BuscaEventoViewModels vm)
+        {
+            vm.Resultados = _Eventos;
+
+            if (!string.IsNullOrEmpty(vm.NomeBusca))
+            {
+                vm.Resultados = _Eventos.Where(e => e.Nome.Contains(vm.NomeBusca, StringComparison.CurrentCultureIgnoreCase)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(vm.LocalBusca))
+            {
+                vm.Resultados = _Eventos.Where(e => e.Local.Contains(vm.LocalBusca, StringComparison.CurrentCultureIgnoreCase)).ToList();
+            }
+
+            return View(vm);
+        }
+      
     }
 }
